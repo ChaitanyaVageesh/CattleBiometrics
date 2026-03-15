@@ -1,0 +1,42 @@
+stages:
+
+  prepare:
+    cmd: python3 scripts/prepare.py
+    deps:
+      - data/raw
+      - scripts/prepare.py
+    params:
+      - prepare
+    outs:
+      - data/processed
+
+  transform:
+    cmd: python3 scripts/transform.py
+    deps:
+      - data/processed
+      - scripts/transform.py
+    params:
+      - transform
+    outs:
+      - data/augmented
+
+  train:
+    cmd: python3 scripts/train.py
+    deps:
+      - data/augmented/train   
+      - scripts/train.py
+    params:
+      - prepare.img_size
+      - train
+    outs:
+      - models/
+
+  evaluate:
+    cmd: python3 scripts/evaluate.py
+    deps:
+      - models/
+      - data/processed
+    metrics:
+      - metrics.json
+    plots:
+      - plots/confusion_matrix.png

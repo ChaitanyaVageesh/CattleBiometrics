@@ -1,0 +1,31 @@
+prepare:
+  split: 0.10
+  min_images: 3
+  img_size: [224, 224]
+
+augment:
+  rotation_range: 20
+  width_shift: 0.2
+  height_shift: 0.2
+  shear_range: 0.15
+  zoom_range: 0.2
+  brightness_range: [0.7, 1.3]
+  horizontal_flip: True
+
+transform:
+  enable: True
+  copies_per_image: 3   # If you have 100 images, you will get 500 new ones + 100 originals
+  rotation_range: 20
+  width_shift: 0.1
+  height_shift: 0.1
+  shear_range: 0.1
+  zoom_range: 0.4
+  brightness_range: [0.8, 1.2]
+  horizontal_flip: True
+
+train:
+  model_type: "transfer" # Options: svm, mlp, transfer
+  epochs: 15
+  batch_size: 32
+  lr: 0.0001
+  hidden_units: 512

@@ -1,0 +1,16 @@
+# Environments
+A3_env/
+.A3_env/
+env/
+bin/
+lib/
+include/
+
+# Python cache
+__pycache__/
+*.pyc
+/metrics.json
+/models
+.DS_Store
+*.zip
+dvc_plots/

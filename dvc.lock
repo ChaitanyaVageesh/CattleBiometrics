@@ -1,0 +1,118 @@
+schema: '2.0'
+stages:
+  install:
+    cmd: pip install -r requirements.txt
+    deps:
+    - path: requirements.txt
+      hash: md5
+      md5: ee63a3d64227cb7b2bed81685ac82600
+      size: 2310
+  prepare:
+    cmd: python3 scripts/prepare.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 99e0f752362f489866d01a9466d8b0a4.dir
+      size: 290554361
+      nfiles: 1225
+    - path: scripts/prepare.py
+      hash: md5
+      md5: 64bd82e294cd41954889a4bb84b5ca07
+      size: 1579
+    params:
+      params.yaml:
+        prepare:
+          split: 0.1
+          min_images: 3
+          img_size:
+          - 224
+          - 224
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 75f27bbdbed0956872712496c2090f3c.dir
+      size: 212899904
+      nfiles: 1187
+  train:
+    cmd: python3 scripts/train.py
+    deps:
+    - path: data/augmented/train
+      hash: md5
+      md5: f044bf9183cf3b137503d99367df467f.dir
+      size: 564002496
+      nfiles: 4238
+    - path: scripts/train.py
+      hash: md5
+      md5: af843016c539fb8336b4b0919be58e85
+      size: 23084
+    params:
+      params.yaml:
+        prepare.img_size:
+        - 224
+        - 224
+        train:
+          model_type: transfer
+          epochs: 15
+          batch_size: 32
+          lr: 0.0001
+          hidden_units: 512
+    outs:
+    - path: models/
+      hash: md5
+      md5: 6420b67f0113126b4ce85900dda28e1b.dir
+      size: 63107170
+      nfiles: 1
+  evaluate:
+    cmd: python3 scripts/evaluate.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 75f27bbdbed0956872712496c2090f3c.dir
+      size: 212899904
+      nfiles: 1187
+    - path: models/
+      hash: md5
+      md5: 6420b67f0113126b4ce85900dda28e1b.dir
+      size: 63107170
+      nfiles: 1
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: b186c6968b5f35b1b4d1bff9634cda5a
+      size: 62
+    - path: plots/confusion_matrix.png
+      hash: md5
+      md5: e6a63ebcae4cbd2f7a5959a74aaf6dcd
+      size: 69056
+  transform:
+    cmd: python3 scripts/transform.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 75f27bbdbed0956872712496c2090f3c.dir
+      size: 212899904
+      nfiles: 1187
+    - path: scripts/transform.py
+      hash: md5
+      md5: 67087472a45d6a637feb360f9fa768dd
+      size: 2772
+    params:
+      params.yaml:
+        transform:
+          enable: true
+          copies_per_image: 3
+          rotation_range: 20
+          width_shift: 0.1
+          height_shift: 0.1
+          shear_range: 0.1
+          zoom_range: 0.4
+          brightness_range:
+          - 0.8
+          - 1.2
+          horizontal_flip: true
+    outs:
+    - path: data/augmented
+      hash: md5
+      md5: 2ff77b52b1f38dba8e7a7ec5d1ed64d0.dir
+      size: 593396883
+      nfiles: 4365
