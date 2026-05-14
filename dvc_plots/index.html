@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id = "plots_training_logs_csv">
+        <script type = "text/javascript">
+            var spec = {};
+            vegaEmbed('#plots_training_logs_csv', spec);
+        </script>
+    </div>
+    
+
+        <div
+            id="plots_confusion_matrix_png"
+            style="border:1px solid black;text-align:center;
+            white-space: nowrap;overflow-y:hidden;">
+            <p>plots/confusion_matrix.png</p>
+
+                <div
+                    style="border:1px dotted black;margin:2px;display:
+                    inline-block;
+                    overflow:hidden;margin-left:8px;">
+                    <p>workspace</p>
+                    <img src="static/workspace_plots_confusion_matrix.png">
+                </div>
+                
+        </div>
+</body>
+</html>

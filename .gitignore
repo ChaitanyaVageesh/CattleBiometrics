@@ -9,8 +9,4 @@ include/
 # Python cache
 __pycache__/
 *.pyc
-/metrics.json
-/models
-.DS_Store
 *.zip
-dvc_plots/
